@@ -3,7 +3,7 @@
         <StackLayout width="100%" backgroundColor="#eee">
             <FlexboxLayout v-for="(exercise, index) in workoutList">
                 <Label flexGrow="1"> {{exercise.name}} </Label>
-                <Button text="Remove" @tap="removeExercise(index)" />
+                <Button class="fa-reg" :text="icon('delete')" @tap="removeExercise(index)" />
             </FlexboxLayout>
         </StackLayout> 
     </ScrollView>
@@ -11,20 +11,22 @@
 
 <script>
 import {saveObject, loadObject} from '../services/storage'
+import {mapState} from 'vuex'
 
 let [RIGHT, LEFT] = [1,2]
 
 export default {
-    created: function() {
-        this.workoutList = loadObject('workout', [])
-        console.log('workout', this.workoutList)
-    },
     data() {
 	    return {
             exerciseList: [],
             newExerciseName: 'test',
             workout: []
 	    };
+    },
+    computed: {
+        ...mapState({
+            workoutList: 'workoutList'
+        })
     },
     methods: {
         removeExercise: function(index) {

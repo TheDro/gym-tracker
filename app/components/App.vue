@@ -58,3 +58,8 @@
         margin-bottom: 15;
     }
 </style>
+<style> 
+    .fa-reg {
+        font-family: "Font Awesome 5 Free", "fa-regular-400"
+    }
+</style>

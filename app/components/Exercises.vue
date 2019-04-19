@@ -3,7 +3,8 @@
         <StackLayout width="100%" backgroundColor="#eee">
             <FlexboxLayout @swipe="swipe($event, index)" v-for="(exercise, index) in exerciseList">
                 <Label flexGrow="1"> {{exercise.name}} </Label>
-                <Button class="fa-reg" :text="icon('edit')" @tap="editExercise(index)" />
+                <Button class="fa-reg" :text="icon('plus')" 
+                    @tap="addToWorkout({date: new Date(), exercise: exercise})" />
                 <Button class="fa-reg" :text="icon('delete')" @tap="removeExercise(index)" />
             </FlexboxLayout>
             <TextField hint="New Exercise Name" 
@@ -16,50 +17,37 @@
 
 <script>
 import {saveObject, loadObject} from '../services/storage'
-import IconLabel from './IconLabel'
-import {IconMap} from './IconMap'
+import {mapState, mapMutations} from 'vuex'
 
 let [RIGHT, LEFT] = [1,2]
 
 export default {
-    components: {IconLabel},
     created: function() {
         this.exerciseList = loadObject('exerciseList', [{name: 'bicep curl'},{name: 'tricep press'}])
     },
     data() {
 	    return {
-            exerciseList: [],
-            newExerciseName: 'test',
-            workout: []
+            newExerciseName: 'test'
 	    };
     },
+    computed: {
+        ...mapState({
+            exerciseList: 'exerciseList'
+        })
+    },
     methods: {
-        removeExercise: function(index) {
-            this.exerciseList.splice(index,1)
-            saveObject('exerciseList', this.exerciseList)
-        },
-        addExercise: function(exerciseName) {
-            this.exerciseList.push({name: exerciseName})
-            this.newExerciseName = ''
-            saveObject('exerciseList', this.exerciseList)
-        },
+        ...mapMutations({
+            addExercise: 'addExercise',
+            removeExercise: 'removeExercise',
+            addToWorkout: 'addToWorkout'
+        }),
         editExercise: function(index) {
-            //edit the thing
+            this.addToWorkout({date: new Date(), exercise: this.exerciseList[index]})
         },
         swipe: function(event, exerciseIndex) {
-            console.log(event.direction)
-            console.log('remove', exerciseIndex)
             if (event.direction === RIGHT) {
-                this.addToWorkout(this.exerciseList[exerciseIndex])
+                this.addToWorkout({date: new Date(), exercise: this.exerciseList[index]})
             }
-        },
-        addToWorkout(exercise) {
-            this.workout.push(exercise)
-            saveObject('workout', this.workout)
-        },
-        icon(iconName) {
-            let code = IconMap[iconName]
-            return code === undefined ? '' : String.fromCharCode(code)
         }
     }
 }
