@@ -2,6 +2,9 @@ import Vue from 'nativescript-vue'
 import App from './components/App'
 import store from './store';
 import {icon} from  './components/IconMap'
+import {setCssFileName} from 'tns-core-modules/application'
+
+setCssFileName('app.css')
 
 
 // Prints Vue logs when --env.production is *NOT* set while building
