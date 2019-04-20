@@ -22,8 +22,14 @@ export default new Vuex.Store({
             state.exerciseList.splice(index,1)
         },
         addToWorkout(state, payload) {
-            state.workoutList.push(payload.exercise)
+            let {date, exercise} = payload;
+            state.workoutList.push(exercise)
             saveObject('workout', state.workoutList)            
+        },
+        removeFromWorkout(state, payload) {
+            let {date, index} = payload;
+            state.workoutList.splice(index,1);
+            saveObject('workout', state.workoutList)
         }
     },
     actions: {

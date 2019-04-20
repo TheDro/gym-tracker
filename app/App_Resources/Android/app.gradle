@@ -3,7 +3,7 @@
 android {
   defaultConfig {  
     generatedDensities = []
-    applicationId = "__PACKAGE__"
+    applicationId = "com.andrewscullion.gymtracker"
   }
   aaptOptions {  
     additionalParameters "--no-version-vectors"  
