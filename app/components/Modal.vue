@@ -25,6 +25,11 @@
 import _ from 'lodash'
 
 export default {
+    props: {
+        nSet: Number,
+        nRep: Number,
+        weight: Number
+    },
     data() {
 	    return {
             setIndex: 0,
@@ -34,6 +39,11 @@ export default {
             weightIndex: 1, 
             weightList: _.range(2.5, 51, 2.5)
 	    };
+    },
+    mounted: function() {
+        this.setIndex = Math.max(this.setList.indexOf(this.nSet),0)
+        this.repIndex = Math.max(this.repList.indexOf(this.nRep),0)
+        this.weightIndex = Math.max(this.weightList.indexOf(this.weight),0)
     },
     computed: {
     },
