@@ -16,7 +16,7 @@ let defaultExercise = {
 
 function dateStamp(date) {
     // Format: 2018-04-28
-    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+    return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
 }
 
 export default new Vuex.Store({
@@ -27,7 +27,7 @@ export default new Vuex.Store({
     getters: {
         currentExerciseList: (state) => {
             return state.exerciseList.filter((exercise) => {
-                return !!exercise.workouts[state.currentDateStamp]
+                return !!_.get(exercise.workouts, state.currentDateStamp, null)
             })
         }
     },
@@ -45,24 +45,29 @@ export default new Vuex.Store({
             saveObject('exerciseList', state.exerciseList)
         },
         addToWorkout(state, payload) {
-            let {date = new Date(), exercise, index} = payload
+            let {exercise, index} = payload
             if (!index) {
                 index = _.findIndex(state.exerciseList, {name: exercise.name})
             }
-            Vue.set(state.exerciseList[index].workouts,dateStamp(date), [])
-            saveObject('exerciseList', state.exerciseList)          
+            if (!state.exerciseList[index].workouts[state.currentDateStamp]) {
+                Vue.set(state.exerciseList[index].workouts,state.currentDateStamp, [])
+                saveObject('exerciseList', state.exerciseList)          
+            }
         },
         removeFromWorkout(state, payload) {
-            let {date = new Date(), exercise} = payload
+            let {exercise} = payload
             let index = _.findIndex(state.exerciseList, {name: exercise.name})
-            Vue.delete(state.exerciseList[index].workouts, dateStamp(date))
+            Vue.delete(state.exerciseList[index].workouts, state.currentDateStamp)
             saveObject('exerciseList', state.exerciseList)
         },
         addWorkoutEntry(state, payload) {
-            let {date = new Date(), exercise, entry} = payload
+            let {exercise, entry} = payload
             let index = _.findIndex(state.exerciseList, {name: exercise.name})
-            state.exerciseList[index].workouts[dateStamp(date)].push(entry)
+            state.exerciseList[index].workouts[state.currentDateStamp].push(entry)
             saveObject('exerciseList', state.exerciseList)
+        },
+        changeDate(state, date) {
+            state.currentDateStamp = dateStamp(date)
         }
     },
     actions: {

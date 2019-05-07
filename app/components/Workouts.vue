@@ -1,14 +1,25 @@
 <template>
     <ScrollView>
         <StackLayout width="100%" backgroundColor="#eee">
+
             <FlexboxLayout v-for="(exercise, index) in workoutList">
                 <Label flexGrow="1"> {{exercise.name}}:{{exercise.workouts[currentDateStamp].length}} </Label>
-                <Button class="fa-reg" :text="icon('edit')" 
+
+                <FlexboxLayout 
+                    v-for="(entry, index) in recentEntries(exercise,2)"  
+                    flexDirection="column"
+                    :class="{entry, odd: index%2 === 0}"
+                    >
+                    <Label height="50%"> {{entry.nSet}}x{{entry.nRep}} </Label>
+                    <Label height="50%"> {{entry.weight}} </Label>
+                </FlexboxLayout>
+
+                <Button class="fa-reg icon" :text="icon('edit')" 
                     @tap="addEntry(index)" />
-                <Button class="fa-reg" :text="icon('delete')" 
+                <Button class="fa-reg icon" :text="icon('delete')" 
                     @tap="removeFromWorkout({exercise})" />
             </FlexboxLayout>
-            <Label v-for="exercise in workoutList">{{exercise}}</Label>
+            <Label v-for="exercise in workoutList" textWrap="true">{{exercise}}</Label>
         </StackLayout>   
 
     </ScrollView>
@@ -24,7 +35,8 @@ let [RIGHT, LEFT] = [1,2]
 export default {
     data() {
 	    return {
-            newExerciseName: 'test'
+            newExerciseName: 'test',
+            currentDate: new Date()
 	    };
     },
     computed: {
@@ -36,6 +48,9 @@ export default {
         }),
     },
     methods: {
+        recentEntries: function(exercise, n) {
+            return exercise.workouts[this.currentDateStamp]
+        },
         ...mapMutations({
             removeFromWorkout: 'removeFromWorkout',
             addWorkoutEntry: 'addWorkoutEntry',
@@ -52,5 +67,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.entry.odd {
+    background-color: pink;
+}
+.entry {
+    text-align: center;
+}
+
+
 </style>

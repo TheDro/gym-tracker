@@ -3,9 +3,9 @@
         <StackLayout width="100%" backgroundColor="#eee">
             <FlexboxLayout @swipe="swipe($event, index)" v-for="(exercise, index) in exerciseList">
                 <Label flexGrow="1"> {{exercise.name}} </Label>
-                <Button class="fa-reg" :text="icon('plus')" 
-                    @tap="addToWorkout({date: new Date(), exercise: exercise})" />
-                <Button class="fa-reg" :text="icon('delete')" @tap="removeExercise(index)" />
+                <Button class="fa-reg icon" :text="icon('plus')" 
+                    @tap="addToWorkout({exercise: exercise})" />
+                <Button class="fa-reg icon" :text="icon('delete')" @tap="removeExercise(index)" />
             </FlexboxLayout>
             <TextField hint="New Exercise Name" 
                 returnKeyType="done"

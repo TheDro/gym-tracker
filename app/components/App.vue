@@ -9,6 +9,9 @@
             <TabViewItem title="Workouts">
                 <Workouts />
             </TabViewItem>
+            <TabViewItem title="Calendar">
+                <Calendar />
+            </TabViewItem>
         </TabView>
 
         <!-- <ScrollView>
@@ -28,11 +31,13 @@
 </template>
 
 <script>
-    import Exercises from './Exercises';
+    import Calendar from './Calendar'
+    import Exercises from './Exercises'
     import Workouts from './Workouts'
 
     export default {
         components: {
+            Calendar,
             Exercises,
             Workouts
         },
@@ -61,5 +66,8 @@
 <style> 
     .fa-reg {
         font-family: "Font Awesome 5 Free", "fa-regular-400"
+    }
+    Button.icon {
+        width: 50;
     }
 </style>
