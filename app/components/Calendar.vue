@@ -33,6 +33,7 @@ export default {
         exerciseList:{ deep: true, immediate: true,
             handler: function(newValue, oldValue) {
                 let dateStampMap = {}
+                let offset = (new Date().getTimezoneOffset() + 12*60)*60*1000
                 _.forEach(newValue, (exercise) => {
                     _.forEach(exercise.workouts, (workoutEntry, dateStamp) => {
                         dateStampMap[dateStamp] = 1
@@ -40,10 +41,10 @@ export default {
                 })
                 let events = []
                 _.forEach(dateStampMap, (one, dateStamp) => {
-                    events.push(new CalendarEvent('',new Date(dateStamp), new Date(dateStamp)))
+                    let eventDate = new Date(Date.parse(dateStamp)+offset)
+                    events.push(new CalendarEvent('', eventDate, eventDate))
                 })
                 this.events = events
-                console.log('EXERCISE LIST WATCH', this.events.length)
             }
         },
     },

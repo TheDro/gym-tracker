@@ -3,12 +3,12 @@
         <StackLayout width="100%" backgroundColor="#eee">
 
             <FlexboxLayout v-for="(exercise, index) in workoutList">
-                <Label flexGrow="1"> {{exercise.name}}:{{exercise.workouts[currentDateStamp].length}} </Label>
+                <Label flexGrow="1"> {{exercise.name}} </Label>
 
                 <FlexboxLayout 
-                    v-for="(entry, index) in recentEntries(exercise,2)"  
+                    v-for="(entry, index) in recentEntries(exercise,4)"  
                     flexDirection="column"
-                    :class="{entry, odd: index%2 === 0}"
+                    :class="{entry, odd: index%2 === 0, today: entry.isToday}"
                     >
                     <Label height="50%"> {{entry.nSet}}x{{entry.nRep}} </Label>
                     <Label height="50%"> {{entry.weight}} </Label>
@@ -19,7 +19,8 @@
                 <Button class="fa-reg icon" :text="icon('delete')" 
                     @tap="removeFromWorkout({exercise})" />
             </FlexboxLayout>
-            <Label v-for="exercise in workoutList" textWrap="true">{{exercise}}</Label>
+
+            <!-- <Label class="debug" v-for="exercise in workoutList" textWrap="true">{{exercise}}</Label> -->
         </StackLayout>   
 
     </ScrollView>
@@ -29,6 +30,7 @@
 import {saveObject, loadObject} from '../services/storage'
 import {mapState, mapMutations, mapGetters} from 'vuex'
 import Modal from './Modal'
+import _ from 'lodash'
 
 let [RIGHT, LEFT] = [1,2]
 
@@ -36,7 +38,6 @@ export default {
     data() {
 	    return {
             newExerciseName: 'test',
-            currentDate: new Date()
 	    };
     },
     computed: {
@@ -49,7 +50,23 @@ export default {
     },
     methods: {
         recentEntries: function(exercise, n) {
-            return exercise.workouts[this.currentDateStamp]
+            let sortedKeys = Object.keys(exercise.workouts).sort().reverse()
+            let keys = sortedKeys.filter(key => key<=this.currentDateStamp).slice(0, n)
+            let entriesLeft = n
+            let entries = []
+            for (let key of keys) {
+                let workouts = _.cloneDeep(exercise.workouts[key])
+                for (let workout of workouts.reverse()) {
+                    if (key === this.currentDateStamp) {
+                        workout.isToday = true
+                    }
+                    entries.push(workout)
+                    entriesLeft--
+                    if (entriesLeft <= 0) break
+                }
+                if (entriesLeft <= 0) break
+            }
+            return entries.reverse()
         },
         ...mapMutations({
             removeFromWorkout: 'removeFromWorkout',
@@ -58,7 +75,6 @@ export default {
         addEntry: function(index) {
             this.$showModal(Modal, {props: {nSet: 5, nRep: 10, weight: 25}})
             .then(entry => {
-                console.log('modal response', entry)
                 let exercise = this.workoutList[index]
                 this.addWorkoutEntry({exercise, entry})
             })
@@ -68,12 +84,18 @@ export default {
 </script>
 
 <style scoped>
-.entry.odd {
-    background-color: pink;
-}
+
 .entry {
     text-align: center;
 }
-
+.entry.odd {
+    background-color: #fff;
+}
+.entry.today {
+    background-color: #87ceeb
+}
+.entry.today.odd {
+    background-color: #91d3ec
+}
 
 </style>

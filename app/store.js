@@ -16,7 +16,10 @@ let defaultExercise = {
 
 function dateStamp(date) {
     // Format: 2018-04-28
-    return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+    let yearString = date.getFullYear().toString()
+    let monthString = (date.getMonth()+1).toString().padStart(2,'0')
+    let dayString = date.getDate().toString().padStart(2,'0')
+    return `${yearString}-${monthString}-${dayString}`
 }
 
 export default new Vuex.Store({

@@ -1,7 +1,10 @@
 <template>
     <ScrollView>
         <StackLayout width="100%" backgroundColor="#eee">
-            <FlexboxLayout @swipe="swipe($event, index)" v-for="(exercise, index) in exerciseList">
+            <FlexboxLayout 
+                v-for="(exercise, index) in exerciseList"
+                :class="{active: !!exercise.workouts[currentDateStamp]}"
+                @swipe="swipe($event, index)" >
                 <Label flexGrow="1"> {{exercise.name}} </Label>
                 <Button class="fa-reg icon" :text="icon('plus')" 
                     @tap="addToWorkout({exercise: exercise})" />
@@ -32,7 +35,8 @@ export default {
     },
     computed: {
         ...mapState({
-            exerciseList: 'exerciseList'
+            exerciseList: 'exerciseList',
+            currentDateStamp: 'currentDateStamp'
         })
     },
     methods: {
@@ -53,5 +57,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.active {
+    background-color: skyblue;
+}
+
 </style>
