@@ -24,7 +24,7 @@ function dateStamp(date) {
 
 export default new Vuex.Store({
     state: {
-        exerciseList: loadObject('exerciseList', [{name: 'bicep curl'},{name: 'tricep press'}]),
+        exerciseList: loadObject('exerciseList', [{name: 'bicep curl',workouts:{}}]),
         currentDateStamp: dateStamp(new Date()),
     },
     getters: {
@@ -46,6 +46,17 @@ export default new Vuex.Store({
         removeExercise(state, index) {
             state.exerciseList.splice(index,1)
             saveObject('exerciseList', state.exerciseList)
+        },
+        updateExercise(state, payload) {
+            try {
+                console.log('UPDATE EXERCISE')
+                let {exercise, name} = payload
+                let index = _.findIndex(state.exerciseList, {name: name})
+                Vue.set(state.exerciseList, index, exercise)
+                saveObject('exerciseList', state.exerciseList)
+            } catch (e) {
+                console.log(e)
+            }
         },
         addToWorkout(state, payload) {
             let {exercise, index} = payload

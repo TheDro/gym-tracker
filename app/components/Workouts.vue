@@ -31,6 +31,7 @@ import {saveObject, loadObject} from '../services/storage'
 import {mapState, mapMutations, mapGetters} from 'vuex'
 import Modal from './Modal'
 import _ from 'lodash'
+import {recentEntries} from './ExerciseHelper'
 
 let [RIGHT, LEFT] = [1,2]
 
@@ -50,23 +51,7 @@ export default {
     },
     methods: {
         recentEntries: function(exercise, n) {
-            let sortedKeys = Object.keys(exercise.workouts).sort().reverse()
-            let keys = sortedKeys.filter(key => key<=this.currentDateStamp).slice(0, n)
-            let entriesLeft = n
-            let entries = []
-            for (let key of keys) {
-                let workouts = _.cloneDeep(exercise.workouts[key])
-                for (let workout of workouts.reverse()) {
-                    if (key === this.currentDateStamp) {
-                        workout.isToday = true
-                    }
-                    entries.push(workout)
-                    entriesLeft--
-                    if (entriesLeft <= 0) break
-                }
-                if (entriesLeft <= 0) break
-            }
-            return entries.reverse()
+            return recentEntries(exercise, n, this.currentDateStamp)
         },
         ...mapMutations({
             removeFromWorkout: 'removeFromWorkout',

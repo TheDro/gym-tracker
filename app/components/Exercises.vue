@@ -5,7 +5,7 @@
                 v-for="(exercise, index) in exerciseList"
                 :class="{active: !!exercise.workouts[currentDateStamp]}"
                 @swipe="swipe($event, index)" >
-                <Label flexGrow="1"> {{exercise.name}} </Label>
+                <Label flexGrow="1" @tap="editExercise(exercise)"> {{exercise.name}} </Label>
                 <Button class="fa-reg icon" :text="icon('plus')" 
                     @tap="addToWorkout({exercise: exercise})" />
                 <Button class="fa-reg icon" :text="icon('delete')" @tap="removeExercise(index)" />
@@ -19,15 +19,12 @@
 </template>
 
 <script>
-import {saveObject, loadObject} from '../services/storage'
 import {mapState, mapMutations} from 'vuex'
+import EditExercise from './EditExercise'
 
 let [RIGHT, LEFT] = [1,2]
 
 export default {
-    created: function() {
-        this.exerciseList = loadObject('exerciseList', [{name: 'bicep curl'},{name: 'tricep press'}])
-    },
     data() {
 	    return {
             newExerciseName: 'test'
@@ -45,8 +42,8 @@ export default {
             removeExercise: 'removeExercise',
             addToWorkout: 'addToWorkout'
         }),
-        editExercise: function(index) {
-            this.addToWorkout({date: new Date(), exercise: this.exerciseList[index]})
+        editExercise: function(exercise) {
+            this.$navigateTo(EditExercise,{props: {exercise}})
         },
         swipe: function(event, exerciseIndex) {
             if (event.direction === RIGHT) {
