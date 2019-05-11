@@ -33,4 +33,6 @@ I've tried other gym applications but none of them do exactly what I want. Some 
  Additional features:
  
  - On the Calendar page, I can see when I've worked out in the past.
- - On the Calendar page, I can select a date and edit my workout on that day.
+ - On the Calendar page, I can select a date and edit my workout for that day.
+ 
+ If you're interested in following my progress, see my Trello board here: https://trello.com/b/VqmbTgK4/gym-tracker
