@@ -3,7 +3,9 @@
         <StackLayout width="100%" backgroundColor="#eee">
 
             <FlexboxLayout v-for="(exercise, index) in workoutList">
-                <Label flexGrow="1"> {{exercise.name}} </Label>
+                <Label flexGrow="1"
+                    @tap="editExercise(exercise)"
+                    >{{exercise.name}}</Label>
 
                 <FlexboxLayout 
                     v-for="(entry, index) in recentEntries(exercise,4)"  
@@ -32,6 +34,7 @@ import {mapState, mapMutations, mapGetters} from 'vuex'
 import Modal from './Modal'
 import _ from 'lodash'
 import {recentEntries} from './ExerciseHelper'
+import EditExercise from './EditExercise'
 
 let [RIGHT, LEFT] = [1,2]
 
@@ -57,6 +60,9 @@ export default {
             removeFromWorkout: 'removeFromWorkout',
             addWorkoutEntry: 'addWorkoutEntry',
         }),
+        editExercise: function(exercise) {
+            this.$navigateTo(EditExercise,{props: {exercise}})
+        },
         addEntry: function(index) {
             this.$showModal(Modal, {props: {nSet: 5, nRep: 10, weight: 25}})
             .then(entry => {

@@ -1,10 +1,10 @@
-import uuid from 'uuid/v1'
 import Workout from './Workout'
+import randomId from '../services/randomId'
 
 function Exercise (obj) {
     let result = {};
 
-    result.id = ''
+    result.id = randomId()
     result.name = ''
     result.workouts = {}
 
@@ -20,7 +20,7 @@ function Exercise (obj) {
                 let validKey = dateStampMatch[0]
                 let validWorkoutList = []
                 for (let workout of workoutList) {
-                    validWorkoutList.push(Workout(workout))
+                    validWorkoutList.push(new Workout(workout))
                 }
                 result.workouts[validKey] = validWorkoutList
             }
