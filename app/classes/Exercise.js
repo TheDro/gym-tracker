@@ -2,16 +2,15 @@ import Workout from './Workout'
 import randomId from '../services/randomId'
 
 function Exercise (obj) {
-    let result = {};
 
-    result.id = randomId()
-    result.name = ''
-    result.workouts = {}
+    this.id = randomId()
+    this.name = ''
+    this.workouts = {}
 
-    result.id = typeof obj.id === 'string' ? obj.id : "0"
-    result.name =  typeof obj.name === 'string' ? obj.name : ''
+    this.id = typeof obj.id === 'string' ? obj.id : "0"
+    this.name =  typeof obj.name === 'string' ? obj.name : ''
     if (typeof obj.workouts !== 'object') {
-        result.workouts = {}
+        this.workouts = {}
     } else {
         for (let key in obj.workouts) {
             let workoutList = obj.workouts[key]
@@ -22,11 +21,10 @@ function Exercise (obj) {
                 for (let workout of workoutList) {
                     validWorkoutList.push(new Workout(workout))
                 }
-                result.workouts[validKey] = validWorkoutList
+                this.workouts[validKey] = validWorkoutList
             }
         }
     }
-    return result;
 
 }
 

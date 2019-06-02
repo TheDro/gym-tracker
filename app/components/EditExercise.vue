@@ -66,7 +66,7 @@ export default {
             .then(response => {
                 if (response) {
                     Vue.set(this.exercise.workouts[entry.dateStamp], entry.index,  response)
-                    this.updateExercise({exercise: this.exercise, name: exercise.name})
+                    this.updateExercise({exercise: this.exercise, name: this.exercise.name})
                 }
             })
         },
