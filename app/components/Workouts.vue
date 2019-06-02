@@ -64,7 +64,17 @@ export default {
             this.$navigateTo(EditExercise,{props: {exercise}})
         },
         addEntry: function(index) {
-            this.$showModal(Modal, {props: {nSet: 5, nRep: 10, weight: 25}})
+            let nextEntry = {nSet: 5, nRep: 10, weight: 25}
+            let lastEntry = recentEntries(this.workoutList[index], 1)[0]
+            if (lastEntry) {
+                nextEntry = {
+                    nSet: lastEntry.nSet, 
+                    nRep: lastEntry.nRep, 
+                    weight: lastEntry.weight
+                }
+            }
+
+            this.$showModal(Modal, {props: nextEntry})
             .then(entry => {
                 if (entry) {
                     let exercise = this.workoutList[index]
