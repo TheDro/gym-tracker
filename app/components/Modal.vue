@@ -15,7 +15,7 @@
             <FlexboxLayout>
                 <Label flexGrow="1"></Label>
                 <Button text="cancel" @tap="closeModal" />
-                <Button text="add" @tap="addSet" />
+                <Button :text="ok" @tap="addSet" />
             </FlexboxLayout>
         </StackLayout>
     </FlexboxLayout>
@@ -28,7 +28,8 @@ export default {
     props: {
         nSet: Number,
         nRep: Number,
-        weight: Number
+        weight: Number,
+        ok: {type: String, default: 'Add'}
     },
     data() {
 	    return {

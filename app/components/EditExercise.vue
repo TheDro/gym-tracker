@@ -44,7 +44,7 @@ export default {
             handler: function(newValue) {
                 let entries
                 try {
-                    entries =  recentEntries(this.exercise)
+                    entries = recentEntries(this.exercise)
                 } catch (e) {
                     console.log(e)
                 }
@@ -60,11 +60,14 @@ export default {
             this.$showModal(Modal, {props: {
                 nSet: entry.nSet,
                 nRep: entry.nRep,
-                weigth: entry.weight
+                weight: entry.weight,
+                ok: 'Update'
             }})
             .then(response => {
-                Vue.set(this.exercise.workouts[entry.dateStamp], entry.index,  response)
-                this.updateExercise({exercise: this.exercise, name: exercise.name})
+                if (response) {
+                    Vue.set(this.exercise.workouts[entry.dateStamp], entry.index,  response)
+                    this.updateExercise({exercise: this.exercise, name: exercise.name})
+                }
             })
         },
         removeWorkout(entry) {

@@ -60,8 +60,10 @@ export default {
         addEntry: function(index) {
             this.$showModal(Modal, {props: {nSet: 5, nRep: 10, weight: 25}})
             .then(entry => {
-                let exercise = this.workoutList[index]
-                this.addWorkoutEntry({exercise, entry})
+                if (entry) {
+                    let exercise = this.workoutList[index]
+                    this.addWorkoutEntry({exercise, entry})
+                }
             })
         }
     }

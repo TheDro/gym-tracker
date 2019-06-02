@@ -5,6 +5,7 @@ import _ from 'lodash'
 Vue.use(Vuex)
 
 import {saveObject, loadObject} from './services/storage'
+import Exercise from './classes/Exercise';
 
 let defaultExercise = {
     name: 'bicep curl',
@@ -22,9 +23,18 @@ function dateStamp(date) {
     return `${yearString}-${monthString}-${dayString}`
 }
 
+
+
 export default new Vuex.Store({
     state: {
-        exerciseList: loadObject('exerciseList', [{name: 'bicep curl',workouts:{}}]),
+        exerciseList: (function() {
+            let loadedExerciseList = loadObject('exerciseList', [{name: 'bicep curl',workouts:{}}])
+            let validExerciseList = [];
+            for (let exercise of loadedExerciseList) {
+                validExerciseList.push(Exercise(exercise))
+            }
+            return validExerciseList
+        })(),
         currentDateStamp: dateStamp(new Date()),
     },
     getters: {
