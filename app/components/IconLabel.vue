@@ -1,5 +1,5 @@
 <template>
-    <Label class="fa-reg">{{hex}}</Label>
+    <Label class="far">{{hex}}</Label>
 </template>
 
 <script>
@@ -23,7 +23,8 @@ export default {
 </script>
 
 <style>
-.fa-reg {
+/* TODO: This may be duplicated in App.vue */
+.far {
     font-family: "Font Awesome 5 Free", "fa-regular-400"
 }
 </style>

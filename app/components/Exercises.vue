@@ -4,18 +4,14 @@
             <FlexboxLayout 
                 v-for="(exercise, index) in exerciseList"
                 :class="{active: !!exercise.workouts[currentDateStamp]}"
-                @swipe="swipe($event, index)" >
+                @swipe="swipe($event, index)" 
+                :key="exercise.id">
                 <Label flexGrow="1" @tap="editExercise(exercise)"> {{exercise.name}} </Label>
-                <Button class="fa-reg icon" :text="icon('plus')" 
+                <Button class="far icon" :text="icon('plus')" 
                     @tap="addToWorkout({exercise: exercise})" />
-                <Button class="fa-reg icon" :text="icon('delete')" @tap="removeExercise(index)" />
+                <Button class="far icon" :text="icon('delete')" @tap="removeExercise(index)" />
             </FlexboxLayout>
 
-            <FlexboxLayout 
-                v-for="(exercise, index) in archivedExerciseList">
-                <Label flexGrow="1" @tap="editExercise(exercise)"> {{exercise.name}} (ARCHIVED) </Label>
-            </FlexboxLayout>
-            
 
             <TextField hint="New Exercise Name" 
                 returnKeyType="done"

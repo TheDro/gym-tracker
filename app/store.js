@@ -62,8 +62,10 @@ export default new Vuex.Store({
     mutations: {
         addExercise(state, exercise) {
             exercise = new Exercise(exercise)
-            
-            let index = _.findIndex(state.exerciseList, {name: exercise.name})
+
+            let index = _.findIndex(state.exerciseList, (e)=> {
+                return _.lowerCase(e.name) === _.lowerCase(exercise.name)
+            })
             if (index >= 0) {
                 // An exercise with that name already exists
                 //TODO: Display message
@@ -71,7 +73,9 @@ export default new Vuex.Store({
                 return
             }
             
-            index = _.findIndex(state.archivedExerciseList, {name: exercise.name})
+            index = _.findIndex(state.archivedExerciseList, (e)=> {
+                return _.lowerCase(e.name) === _.lowerCase(exercise.name)
+            })
             if (index >= 0) {
                 console.log('Retrieving archived exercise with that name.')
                 let archivedExercise = state.archivedExerciseList.splice(index,1)[0]

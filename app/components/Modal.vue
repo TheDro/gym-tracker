@@ -36,9 +36,9 @@ export default {
             setIndex: 0,
             setList: _.range(1, 13),
             repIndex: 0,
-            repList: _.range(1, 21),
+            repList: _.range(1, 26),
             weightIndex: 1, 
-            weightList: _.range(2.5, 51, 2.5)
+            weightList: _.range(2.5, 401, 2.5)
 	    };
     },
     mounted: function() {

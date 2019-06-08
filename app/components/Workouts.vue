@@ -16,9 +16,9 @@
                     <Label height="50%"> {{entry.weight}} </Label>
                 </FlexboxLayout>
 
-                <Button class="fa-reg icon" :text="icon('edit')" 
+                <Button class="far icon" :text="icon('edit')" 
                     @tap="addEntry(index)" />
-                <Button class="fa-reg icon" :text="icon('delete')" 
+                <Button class="far icon" :text="icon('delete')" 
                     @tap="removeFromWorkout({exercise})" />
             </FlexboxLayout>
 

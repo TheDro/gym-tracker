@@ -11,9 +11,9 @@
                 <Label flexGrow="1">x</Label>
                 <Label flexGrow="1">{{workout.nRep}}</Label>
                 <Label flexGrow="1">{{workout.weight}}</Label>
-                <Button class="fa-reg icon" :text="icon('edit')" 
+                <Button class="far icon" :text="icon('edit')" 
                     @tap="editWorkout(workout)" />
-                <!-- <Button class="fa-reg icon" :text="icon('delete')" 
+                <!-- <Button class="far icon" :text="icon('delete')" 
                     @tap="removeWorkout(workout)" /> -->
             </FlexboxLayout>
         </StackLayout> 
