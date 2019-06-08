@@ -1,7 +1,7 @@
 {
   "name": "gym-tracker",
   "version": "1.0.0",
-  "description": "A native application built with NativeScript-Vue",
+  "description": "A progress tracking application for the gym.",
   "author": "Andrew <andrewsc32@protonmail.com>",
   "license": "MIT",
   "nativescript": {

@@ -10,6 +10,13 @@
                     @tap="addToWorkout({exercise: exercise})" />
                 <Button class="fa-reg icon" :text="icon('delete')" @tap="removeExercise(index)" />
             </FlexboxLayout>
+
+            <FlexboxLayout 
+                v-for="(exercise, index) in archivedExerciseList">
+                <Label flexGrow="1" @tap="editExercise(exercise)"> {{exercise.name}} (ARCHIVED) </Label>
+            </FlexboxLayout>
+            
+
             <TextField hint="New Exercise Name" 
                 returnKeyType="done"
                 v-model="newExerciseName" 
@@ -33,7 +40,8 @@ export default {
     computed: {
         ...mapState({
             exerciseList: 'exerciseList',
-            currentDateStamp: 'currentDateStamp'
+            currentDateStamp: 'currentDateStamp',
+            archivedExerciseList: 'archivedExerciseList'
         })
     },
     methods: {

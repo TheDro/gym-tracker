@@ -1,5 +1,6 @@
 # JetBrains project files
 .idea
+.cloud
 
 # NPM
 node_modules

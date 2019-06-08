@@ -3,6 +3,10 @@ import randomId from '../services/randomId'
 
 function Exercise (obj) {
 
+    if (typeof obj === 'string') {
+        obj = {name: obj}
+    }
+
     this.id = randomId()
     this.name = ''
     this.workouts = {}

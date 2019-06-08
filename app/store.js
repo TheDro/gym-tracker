@@ -27,11 +27,24 @@ function save(state) {
     saveObject('exerciseList', state.exerciseList)
 }
 
+function saveArchive(state) {
+    saveObject('archivedExerciseList', state.archivedExerciseList)
+}
+
 export default new Vuex.Store({
     state: {
         exerciseList: (function() {
             let loadedExerciseList = loadObject('exerciseList', [{name: 'bicep curl',workouts:{}}])
-            let validExerciseList = [];
+            let validExerciseList = []
+            for (let exercise of loadedExerciseList) {
+                validExerciseList.push(new Exercise(exercise))
+            }
+            return validExerciseList
+        })(),
+        archivedExerciseList: (function() {
+            let loadedExerciseList = loadObject('archivedExerciseList', [])
+            loadedExerciseList = []
+            let validExerciseList = []
             for (let exercise of loadedExerciseList) {
                 validExerciseList.push(new Exercise(exercise))
             }
@@ -48,16 +61,35 @@ export default new Vuex.Store({
     },
     mutations: {
         addExercise(state, exercise) {
-            if (typeof exercise === 'string') {
-                exercise = {name: exercise, workouts: {}}
+            exercise = new Exercise(exercise)
+            
+            let index = _.findIndex(state.exerciseList, {name: exercise.name})
+            if (index >= 0) {
+                // An exercise with that name already exists
+                //TODO: Display message
+                console.log('An exercise with that name already exists.')
+                return
             }
-            state.exerciseList.push(exercise)
+            
+            index = _.findIndex(state.archivedExerciseList, {name: exercise.name})
+            if (index >= 0) {
+                console.log('Retrieving archived exercise with that name.')
+                let archivedExercise = state.archivedExerciseList.splice(index,1)[0]
+                state.exerciseList.push(archivedExercise)
+                save(state)
+                saveArchive(state)
+            } else {
+                console.log('New exercise added.')
+                state.exerciseList.push(exercise)
+                save(state)
+            }
 
-            save(state)
         },
         removeExercise(state, index) {
-            state.exerciseList.splice(index,1)
+            let archivedExercise = state.exerciseList.splice(index,1)[0]
+            state.archivedExerciseList.push(archivedExercise)
             save(state)
+            saveArchive(state)
         },
         updateExercise(state, payload) {
             try {
